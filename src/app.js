@@ -16,7 +16,7 @@ const app = express();
 
 app.use(
     cors({
-        origin: ['*'],
+        origin: ['http://localhost:3000', 'https://nivakaran.dev'],
         credentials: true,
     })
 )
