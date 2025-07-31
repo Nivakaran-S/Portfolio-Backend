@@ -11,15 +11,23 @@ const MiniProjectRouter = require('./routes/miniProjects/miniProjects.router')
 const ProjectsRouter = require('./routes/projects/projects.router')
 const SubscriptionRouter = require('./routes/subscription/subscription.router')
 
-
 const app = express();
 
-app.use(
-    cors({
-        origin: ['http://localhost:3000', 'https://nivakaran.dev'],
-        credentials: true,
-    })
-)
+// CORS configuration
+app.use(cors({
+    origin: ['http://localhost:3000', 'https://nivakaran.dev'],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+// Explicitly handle preflight OPTIONS requests
+app.options('*', cors({
+    origin: ['http://localhost:3000', 'https://nivakaran.dev'],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 app.use(express.json())
 app.use(cookieParser())
@@ -40,7 +48,6 @@ app.get('/', (req, res) => {
         res.status(500).json({message: "Internal server error"})
     }
 })
-
 
 app.get('/check-cookie', (req, res) => {
     try {
