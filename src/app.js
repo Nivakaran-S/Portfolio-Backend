@@ -32,6 +32,16 @@ app.use('/miniProjects', MiniProjectRouter)
 app.use('/projects', ProjectsRouter)
 app.use('/subscription', SubscriptionRouter)
 
+app.get('/', (req, res) => {
+    try{
+        return res.status(200).json({message: 'Success!'})
+    } catch(err) {
+        console.error("Error in deployment", err)
+        res.status(500).json({message: "Internal server error"})
+    }
+})
+
+
 app.get('/check-cookie', (req, res) => {
     try {
         if (!req.cookies || Object.keys(req.cookies).length === 0) {
