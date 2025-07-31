@@ -3,6 +3,14 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 
+const UserRouter = require('./routes/auth/auth.router');
+const BlogsRouter = require('./routes/blogs/blogs.router')
+const CaseStudiesRouter = require('./routes/caseStudies/caseStudies.router')
+const ContactRouter = require('./routes/contact/contact.router')
+const MiniProjectRouter = require('./routes/miniProjects/miniProjects.router')
+const ProjectsRouter = require('./routes/projects/projects.router')
+const SubscriptionRouter = require('./routes/subscription/subscription.router')
+
 
 const app = express();
 
@@ -16,6 +24,13 @@ app.use(
 app.use(express.json())
 app.use(cookieParser())
 
+app.use('/api/auth', UserRouter);
+app.use('/blogs', BlogsRouter)
+app.use('/caseStudies', CaseStudiesRouter)
+app.use('/contact', ContactRouter)
+app.use('/miniProjects', MiniProjectRouter)
+app.use('/projects', ProjectsRouter)
+app.use('/subscription', SubscriptionRouter)
 
 app.get('/check-cookie', (req, res) => {
     try {
