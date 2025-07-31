@@ -1,10 +1,9 @@
-// api/server.js (Vercel automatically picks up functions in /api folder)
+// api/index.js (for Vercel serverless deployment)
+const app = require('./app'); // Adjust path to your app.js
 const mongoose = require('mongoose');
-const app = require('../src/app'); // Adjust path as needed
 const serverless = require('serverless-http');
 
 const MONGO_URL = process.env.MONGO_URL;
-
 let isConnected = false;
 
 async function connectToDB() {
@@ -18,42 +17,54 @@ async function connectToDB() {
     }
     
     await mongoose.connect(MONGO_URL, {
-      bufferCommands: false, // Disable mongoose buffering for serverless
-      bufferMaxEntries: 0,   // Disable mongoose buffering for serverless
+      bufferCommands: false,
+      bufferMaxEntries: 0,
     });
     
     isConnected = true;
-    console.log('MongoDB connected');
+    console.log('MongoDB connection is ready!');
   } catch (error) {
-    console.error('MongoDB connection error:', error);
+    console.error('Error connecting with MongoDB:', error);
     throw error;
   }
 }
 
-// Create the serverless handler once
+// Create handler
 const handler = serverless(app);
 
-// Export the serverless function
-module.exports.handler = async (event, context) => {
+// Export for Vercel
+module.exports = async (req, res) => {
   try {
-    // Important: prevent Lambda from waiting for empty event loop
-    context.callbackWaitsForEmptyEventLoop = false;
-    
     await connectToDB();
-    
-    return await handler(event, context);
+    return await handler(req, res);
   } catch (error) {
     console.error('Handler error:', error);
-    
-    return {
-      statusCode: 500,
-      body: JSON.stringify({
-        error: 'Internal Server Error',
-        message: process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
+    res.status(500).json({ 
+      error: 'Internal Server Error',
+      message: process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'
+    });
   }
 };
+
+// For local development, you can still use the traditional server
+if (process.env.NODE_ENV !== 'production') {
+  const http = require('http');
+  const PORT = process.env.PORT || 8000;
+  
+  const startServer = async () => {
+    try {
+      await connectToDB();
+      const server = http.createServer(app);
+      server.listen(PORT, () => {
+        console.log(`Listening on port ${PORT}...`);
+      });
+    } catch (error) {
+      console.error('Failed to start server:', error);
+    }
+  };
+  
+  // Only start traditional server in development
+  if (require.main === module) {
+    startServer();
+  }
+}
