@@ -11,32 +11,18 @@ const MiniProjectRouter = require('./routes/miniProjects/miniProjects.router')
 const ProjectsRouter = require('./routes/projects/projects.router')
 const SubscriptionRouter = require('./routes/subscription/subscription.router')
 
+
 const app = express();
 
-// CORS configuration
-app.use(cors({
-    origin: ['*'], // Revert to wildcard since it worked
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-}));
-
-// Explicitly handle preflight OPTIONS requests
-app.options('*', cors({
-    origin: ['*'],
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-}));
+app.use(
+    cors({
+        origin: ['*'],
+        credentials: true,
+    })
+)
 
 app.use(express.json())
 app.use(cookieParser())
-
-// Error logging middleware
-app.use((err, req, res, next) => {
-    console.error('Server error:', err.stack);
-    res.status(500).json({ message: 'Internal Server Error' });
-});
 
 app.use('/api/auth', UserRouter);
 app.use('/blogs', BlogsRouter)
@@ -55,6 +41,7 @@ app.get('/', (req, res) => {
     }
 })
 
+
 app.get('/check-cookie', (req, res) => {
     try {
         if (!req.cookies || Object.keys(req.cookies).length === 0) {
@@ -68,6 +55,7 @@ app.get('/check-cookie', (req, res) => {
     } catch (err) {
         console.error("Error in checking cookie:", err);
         res.status(500).json({ message: 'Internal Server Error' });
+
     }
 });
 
