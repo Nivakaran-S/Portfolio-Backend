@@ -224,9 +224,9 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## Contact
 For inquiries or feedback, reach out to:
-- **Email**: your-email@example.com
-- **GitHub**: [your-username](https://github.com/your-username)
-- **Portfolio**: [your-portfolio-url](https://your-portfolio-url.com)
+- **Email**: nivakaran@hotmail.com
+- **GitHub**: [Nivakaran-S](https://github.com/Nivakaran-S)
+- **Portfolio**: [nivakaran.dev](https://nivakaran.dev)
 
 ---
 
