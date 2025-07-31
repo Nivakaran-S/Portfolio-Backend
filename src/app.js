@@ -1,6 +1,5 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
-const cors = require('cors');
 const jwt = require('jsonwebtoken');
 
 const UserRouter = require('./routes/auth/auth.router');
@@ -13,16 +12,26 @@ const SubscriptionRouter = require('./routes/subscription/subscription.router');
 
 const app = express();
 
-// --- CORS ---
-const allowedOrigins = ['http://localhost:3000', 'https://nivakaran.dev'];
-app.use(cors({
-    origin: allowedOrigins,
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-}));
+// --- Manual CORS Middleware for Vercel Serverless ---
+const allowedOrigins = ['http://localhost:3000', 'http://localhost:3000/login', 'https://nivakaran.dev/login', 'https://nivakaran.dev'];
 
-// --- Middleware ---
+app.use((req, res, next) => {
+    const origin = req.headers.origin;
+    if (allowedOrigins.includes(origin)) {
+        res.setHeader('Access-Control-Allow-Origin', origin);
+        res.setHeader('Access-Control-Allow-Credentials', 'true');
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    }
+
+    if (req.method === 'OPTIONS') {
+        return res.sendStatus(200);
+    }
+
+    next();
+});
+
+// --- JSON & Cookie parsing ---
 app.use(express.json());
 app.use(cookieParser());
 
@@ -60,7 +69,7 @@ app.post('/logout', (req, res) => {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict',
-        path: '/' // Important if cookie was set with a path
+        path: '/',
     });
     res.json({ message: 'Logged out successfully!' });
 });
@@ -71,7 +80,7 @@ app.use((req, res) => {
     res.status(404).json({ message: 'Route not found' });
 });
 
-// --- Error Handler (after routes) ---
+// --- Error Handler ---
 app.use((err, req, res, next) => {
     console.error('Unhandled server error:', err.stack || err.message);
     res.status(500).json({ message: 'Internal Server Error' });
