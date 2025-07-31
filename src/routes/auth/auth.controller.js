@@ -30,24 +30,42 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await Admin.findOne({ email }); // Use findOne instead of searchAdmins
+
+    if (!email || !password) {
+      return res.status(400).json({ error: 'Email and password are required' });
+    }
+
+    const user = await Admin.findOne({ email });
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
+
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ error: 'Invalid credentials' });
     }
-    const token = jwt.sign({ id: user._id, role: "admin" }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    if (!process.env.JWT_SECRET) {
+      throw new Error("JWT_SECRET not set in environment variables");
+    }
+
+    const token = jwt.sign(
+      { id: user._id, role: "admin" },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    );
+
     res.cookie('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'Strict',
+      path: '/', // <- don't skip this
       maxAge: 3600000,
     });
+
     return res.status(200).json({ message: 'Login successful', id: user._id, role: 'admin' });
   } catch (err) {
-    console.error('Error in logging in:', err);
+    console.error('Error in logging in:', err.message);
     return res.status(500).json({ error: 'Internal server error' });
   }
 };
