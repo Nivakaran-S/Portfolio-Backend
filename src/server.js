@@ -1,5 +1,5 @@
 // api/index.js (for Vercel serverless deployment)
-const app = require('./app'); // Adjust path to your app.js
+const app = require('../src/app'); // Adjust path to your app.js
 const mongoose = require('mongoose');
 const serverless = require('serverless-http');
 
@@ -18,7 +18,6 @@ async function connectToDB() {
     
     await mongoose.connect(MONGO_URL, {
       bufferCommands: false,
-      bufferMaxEntries: 0,
     });
     
     isConnected = true;
