@@ -5,7 +5,7 @@ const serverless = require('serverless-http');
 // Import your Express app
 let app;
 try {
-  app = require('../src/app'); // Adjust this path to where your app.js file is located
+  app = require('./app'); // Adjust this path to where your app.js file is located
 } catch (error) {
   console.error('Failed to import app:', error);
   // Fallback app if import fails
