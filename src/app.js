@@ -11,6 +11,7 @@ const ProjectsRouter = require('./routes/projects/projects.router');
 const SubscriptionRouter = require('./routes/subscription/subscription.router');
 const MiniProjectCategoryRouter = require('./routes/miniProjectCategory/miniProjectCategory.router')
 const ProjectCategoryRouter = require('./routes/projectCategory/projectCategory.router')
+const BlogCategoryRouter = require('./routes/blogCategories/blogCategory.router')
 
 const app = express();
 
@@ -47,7 +48,7 @@ app.use('/projects', ProjectsRouter);
 app.use('/subscription', SubscriptionRouter);
 app.use('/miniProjectCategory', MiniProjectCategoryRouter)
 app.use('/projectCategory', ProjectCategoryRouter)
-
+app.use('/blogCategory', BlogCategoryRouter)
 
 // --- Routes ---
 app.get('/', (req, res) => {
