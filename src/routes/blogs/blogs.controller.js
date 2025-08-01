@@ -2,11 +2,11 @@ const { createBlog, getBlogById, updateBlog, deleteBlog, getAllBlogs, searchBlog
 
 const httpCreateBlogController = async (req, res) => {
   try {
-    const { title, subtitle, content, imageUrl } = req.body;
+    const { title, subtitle, content, imageUrl, blogsCategory } = req.body;
     if (!title || !subtitle || !content) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
-    const blogId = await createBlog({ title, subtitle, content, imageUrl });
+    const blogId = await createBlog({ title, subtitle, content, imageUrl,blogsCategory });
     return res.status(201).json({ message: 'Blog created successfully', id: blogId });
   } catch (err) {
     console.error('Error creating blog:', err);
@@ -31,11 +31,11 @@ const httpGetBlogByIdController = async (req, res) => {
 const httpUpdateBlogController = async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, subtitle, content, imageUrl } = req.body;
+    const { title, subtitle, content, blogsCategory, imageUrl } = req.body;
     if (!title || !subtitle || !content) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
-    const blog = await updateBlog(id, { title, subtitle, content, imageUrl });
+    const blog = await updateBlog(id, { title, subtitle, blogsCategory, content, imageUrl });
     if (!blog) {
       return res.status(404).json({ error: 'Blog not found' });
     }

@@ -11,6 +11,10 @@ const ProjectSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
+    projectCategory: {
+        type: String,
+        required: true
+    },
     images: {
         type: {
             imageUrl1: { type: String, required: true },

@@ -2,11 +2,11 @@ const { createProject, getProjectById, updateProject, deleteProject, getAllProje
 
 const httpCreateProjectController = async (req, res) => {
   try {
-    const { title, projectOverview, images, problem, solution, techStack } = req.body;
-    if (!title || !projectOverview || !images || !problem || !solution || !techStack) {
+    const { title, projectOverview, images, problem, projectCategory, solution, techStack } = req.body;
+    if (!title || !projectOverview || !images || !problem || !solution || !projectCategory || !techStack) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
-    const projectId = await createProject({ title, projectOverview, images, problem, solution, techStack });
+    const projectId = await createProject({ title, projectOverview, images, projectCategory, problem, solution, techStack });
     return res.status(201).json({ message: 'Project created successfully', id: projectId });
   } catch (err) {
     console.error('Error creating project:', err);
@@ -28,11 +28,11 @@ const httpGetProjectByIdController = async (req, res) => {
 const httpUpdateProjectController = async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, projectOverview, images, problem, solution, techStack } = req.body;
-    if (!title || !projectOverview || !images || !problem || !solution || !techStack) {
+    const { title, projectOverview, projectCategory, images, problem, solution, techStack } = req.body;
+    if (!title || !projectOverview || !projectCategory || !images || !problem || !solution || !techStack) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
-    const project = await updateProject(id, { title, projectOverview, images, problem, solution, techStack });
+    const project = await updateProject(id, { title, projectOverview, projectCategory, images, problem, solution, techStack });
     return res.status(200).json({ message: 'Project updated successfully', project });
   } catch (err) {
     console.error('Error updating project:', err);

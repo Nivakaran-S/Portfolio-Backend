@@ -6,6 +6,7 @@ const createBlog = async (data) => {
       title: data.title,
       subtitle: data.subtitle,
       content: data.content,
+      blogsCategory: data.blogsCategory,
       imageUrl: data.imageUrl,
       createdAt: new Date(),
     });
@@ -36,6 +37,7 @@ const updateBlog = async (id, data) => {
         title: data.title,
         subtitle: data.subtitle,
         content: data.content,
+        blogsCategory: data.blogsCategory,
         imageUrl: data.imageUrl,
         updatedAt: new Date(),
       },

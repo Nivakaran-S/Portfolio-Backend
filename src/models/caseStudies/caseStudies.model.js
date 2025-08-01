@@ -1,7 +1,27 @@
 const CaseStudy = require('./caseStudies.mongo');
 
+
 const createCaseStudy = async (data) => {
   try {
+    // Validate required fields
+    if (
+      !data.title ||
+      !data.description ||
+      !data.client ||
+      !data.industry ||
+      !data.services?.length ||
+      !data.challenge ||
+      !data.solution ||
+      !data.results ||
+      !data.images?.imageUrl1 ||
+      !data.demoUrl ||
+      !data.githubUrl
+    ) {
+      throw new Error(
+        'Missing required fields: title, description, client, industry, services, challenge, solution, results, images.imageUrl1, demoUrl, or githubUrl'
+      );
+    }
+
     const caseStudy = await CaseStudy.create({
       title: data.title,
       description: data.description,
@@ -12,20 +32,22 @@ const createCaseStudy = async (data) => {
       solution: data.solution,
       results: data.results,
       images: {
-        imageUrl1: data.imageUrl1,
-        imageUrl2: data.imageUrl2,
-        imageUrl3: data.imageUrl3,
+        imageUrl1: data.images.imageUrl1,
+        imageUrl2: data.images.imageUrl2 || undefined,
+        imageUrl3: data.images.imageUrl3 || undefined,
       },
       demoUrl: data.demoUrl,
       githubUrl: data.githubUrl,
-      createdAt: new Date(),
+      createdTimestamp: new Date(),
     });
+
     return caseStudy._id;
   } catch (err) {
     console.error('Error creating case study:', err);
     throw err;
   }
 };
+
 
 const getCaseStudyById = async (id) => {
   try {
