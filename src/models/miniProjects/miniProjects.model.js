@@ -40,7 +40,7 @@ const updateMiniProject = async (id, data) => {
         miniProjectCategory: data.miniProjectCategory,
         imageUrl: data.imageUrl,
         githubUrl: data.githubUrl,
-        demoUrl: data.demoUrl,
+        demoURL: data.demoUrl,
         updatedAt: new Date(),
       },
       { new: true, runValidators: true }
