@@ -2,11 +2,11 @@ const { createMiniProject, getMiniProjectById, updateMiniProject, deleteMiniProj
 
 const httpCreateMiniProjectController = async (req, res) => {
   try {
-    const { title, description, imageUrl, githubUrl, demoUrl } = req.body;
+    const { title, description, miniProjectCategory, imageUrl, githubUrl, demoUrl } = req.body;
     if (!title || !description || !imageUrl) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
-    const miniProjectId = await createMiniProject({ title, description, imageUrl, githubUrl, demoUrl });
+    const miniProjectId = await createMiniProject({ title, miniProjectCategory, description, imageUrl, githubUrl, demoUrl });
     return res.status(201).json({ message: 'Mini project created successfully', id: miniProjectId });
   } catch (err) {
     console.error('Error creating mini project:', err);
@@ -31,11 +31,11 @@ const httpGetMiniProjectByIdController = async (req, res) => {
 const httpUpdateMiniProjectController = async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, description, imageUrl, githubUrl, demoUrl } = req.body;
+    const { title, description, imageUrl, miniProjectCategory, githubUrl, demoUrl } = req.body;
     if (!title || !description || !imageUrl) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
-    const miniProject = await updateMiniProject(id, { title, description, imageUrl, githubUrl, demoUrl });
+    const miniProject = await updateMiniProject(id, { title, description, miniProjectCategory, imageUrl, githubUrl, demoUrl });
     if (!miniProject) {
       return res.status(404).json({ error: 'Mini project not found' });
     }

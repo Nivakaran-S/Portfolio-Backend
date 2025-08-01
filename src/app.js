@@ -9,6 +9,7 @@ const ContactRouter = require('./routes/contact/contact.router');
 const MiniProjectRouter = require('./routes/miniProjects/miniProjects.router');
 const ProjectsRouter = require('./routes/projects/projects.router');
 const SubscriptionRouter = require('./routes/subscription/subscription.router');
+const MiniProjectCategoryRouter = require('./routes/miniProjectCategory/miniProjectCategory.router')
 
 const app = express();
 
@@ -43,6 +44,7 @@ app.use('/contact', ContactRouter);
 app.use('/miniProjects', MiniProjectRouter);
 app.use('/projects', ProjectsRouter);
 app.use('/subscription', SubscriptionRouter);
+app.use('/miniProjectCategory', MiniProjectCategoryRouter)
 
 // --- Routes ---
 app.get('/', (req, res) => {

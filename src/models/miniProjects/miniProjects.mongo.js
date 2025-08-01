@@ -14,6 +14,10 @@ const MiniProjectSchema = mongoose.Schema({
         type: String,
         required:true
     },
+    miniProjectCategory: {
+        type: String,
+        required:true
+    },
     githubUrl: {
         type:String,
         required:true

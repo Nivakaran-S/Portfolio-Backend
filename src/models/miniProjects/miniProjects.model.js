@@ -7,6 +7,7 @@ const createMiniProject = async (data) => {
       description: data.description,
       imageUrl: data.imageUrl,
       githubUrl: data.githubUrl,
+      miniProjectCategory: data.miniProjectCategory,
       demoUrl: data.demoUrl,
       createdAt: new Date(),
     });
@@ -36,6 +37,7 @@ const updateMiniProject = async (id, data) => {
       {
         title: data.title,
         description: data.description,
+        miniProjectCategory: data.miniProjectCategory,
         imageUrl: data.imageUrl,
         githubUrl: data.githubUrl,
         demoUrl: data.demoUrl,
