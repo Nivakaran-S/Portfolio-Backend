@@ -8,7 +8,7 @@ const createMiniProject = async (data) => {
       imageUrl: data.imageUrl,
       githubUrl: data.githubUrl,
       miniProjectCategory: data.miniProjectCategory,
-      demoUrl: data.demoUrl,
+      demoURL: data.demoUrl,
       createdAt: new Date(),
     });
     return miniProject._id;
