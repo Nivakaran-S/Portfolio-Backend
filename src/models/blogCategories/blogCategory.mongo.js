@@ -13,4 +13,4 @@ const BlogCategorySchema = mongoose.Schema({
 
 })
 
-module.exports = mongoose.model('MiniProjectCategory', BlogCategorySchema)
+module.exports = mongoose.model('BlogCategory', BlogCategorySchema)

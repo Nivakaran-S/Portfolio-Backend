@@ -13,4 +13,4 @@ const ProjectCategorySchema = mongoose.Schema({
 
 })
 
-module.exports = mongoose.model('MiniProjectCategory', ProjectCategorySchema)
+module.exports = mongoose.model('ProjectCategory', ProjectCategorySchema)
