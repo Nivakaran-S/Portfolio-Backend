@@ -28,7 +28,7 @@ const httpGetProjectByIdController = async (req, res) => {
 const httpUpdateProjectController = async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, projectOverview, projectCategory, images, problem, solution, techStack } = req.body;
+    const { title, projectOverview, projectCategory, images, problem, githubLink, demoLink, solution, techStack } = req.body;
     if (!title || !projectOverview || !projectCategory || !images || !githubLink || !demoLink || !problem || !solution || !techStack) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
