@@ -2,11 +2,11 @@ const { createProject, getProjectById, updateProject, deleteProject, getAllProje
 
 const httpCreateProjectController = async (req, res) => {
   try {
-    const { title, projectOverview, images, problem, projectCategory, solution, techStack } = req.body;
-    if (!title || !projectOverview || !images || !problem || !solution || !projectCategory || !techStack) {
+    const { title, projectOverview, images, githubLink, demoLink, problem, projectCategory, solution, techStack } = req.body;
+    if (!title || !projectOverview || !images || !problem || !solution || !githubLink || !demoLink || !projectCategory || !techStack) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
-    const projectId = await createProject({ title, projectOverview, images, projectCategory, problem, solution, techStack });
+    const projectId = await createProject({ title, projectOverview, images, githubLink, demoLink, projectCategory, problem, solution, techStack });
     return res.status(201).json({ message: 'Project created successfully', id: projectId });
   } catch (err) {
     console.error('Error creating project:', err);
@@ -29,10 +29,10 @@ const httpUpdateProjectController = async (req, res) => {
   try {
     const { id } = req.params;
     const { title, projectOverview, projectCategory, images, problem, solution, techStack } = req.body;
-    if (!title || !projectOverview || !projectCategory || !images || !problem || !solution || !techStack) {
+    if (!title || !projectOverview || !projectCategory || !images || !githubLink || !demoLink || !problem || !solution || !techStack) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
-    const project = await updateProject(id, { title, projectOverview, projectCategory, images, problem, solution, techStack });
+    const project = await updateProject(id, { title, projectOverview, projectCategory, githubLink, demoLink, images, problem, solution, techStack });
     return res.status(200).json({ message: 'Project updated successfully', project });
   } catch (err) {
     console.error('Error updating project:', err);

@@ -44,6 +44,12 @@ const ProjectSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
+    githubLink: {
+        type: String
+    },
+    demoLink: {
+        type: String
+    },
     updatedTimestamp: {
         type: Date,
         default: Date.now
