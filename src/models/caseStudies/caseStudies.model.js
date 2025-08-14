@@ -1,44 +1,32 @@
 const CaseStudy = require('./caseStudies.mongo');
 
-
+// Create a new case study
 const createCaseStudy = async (data) => {
   try {
-    // Validate required fields
     if (
       !data.title ||
-      !data.description ||
-      !data.client ||
-      !data.industry ||
-      !data.services?.length ||
       !data.challenge ||
       !data.solution ||
       !data.results ||
-      !data.images?.imageUrl1 ||
+      !data.imageUrl ||
       !data.demoUrl ||
       !data.githubUrl
     ) {
       throw new Error(
-        'Missing required fields: title, description, client, industry, services, challenge, solution, results, images.imageUrl1, demoUrl, or githubUrl'
+        'Missing required fields: title, challenge, solution, results, imageUrl, demoUrl, or githubUrl'
       );
     }
 
     const caseStudy = await CaseStudy.create({
       title: data.title,
-      description: data.description,
-      client: data.client,
-      industry: data.industry,
-      services: data.services,
       challenge: data.challenge,
       solution: data.solution,
       results: data.results,
-      images: {
-        imageUrl1: data.images.imageUrl1,
-        imageUrl2: data.images.imageUrl2 || undefined,
-        imageUrl3: data.images.imageUrl3 || undefined,
-      },
+      learnings: data.learnings || '',
+      technologies: data.technologies || [],
+      imageUrl: data.imageUrl,
       demoUrl: data.demoUrl,
       githubUrl: data.githubUrl,
-      createdTimestamp: new Date(),
     });
 
     return caseStudy._id;
@@ -48,7 +36,7 @@ const createCaseStudy = async (data) => {
   }
 };
 
-
+// Get case study by ID
 const getCaseStudyById = async (id) => {
   try {
     const cleanedId = id.replace(/^:/, '').trim();
@@ -60,6 +48,7 @@ const getCaseStudyById = async (id) => {
   }
 };
 
+// Update a case study
 const updateCaseStudy = async (id, data) => {
   try {
     const cleanedId = id.replace(/^:/, '').trim();
@@ -67,18 +56,12 @@ const updateCaseStudy = async (id, data) => {
       cleanedId,
       {
         title: data.title,
-        description: data.description,
-        client: data.client,
-        industry: data.industry,
-        services: data.services,
         challenge: data.challenge,
         solution: data.solution,
         results: data.results,
-        images: {
-          imageUrl1: data.imageUrl1,
-          imageUrl2: data.imageUrl2,
-          imageUrl3: data.imageUrl3,
-        },
+        learnings: data.learnings || '',
+        technologies: data.technologies || [],
+        imageUrl: data.imageUrl,
         demoUrl: data.demoUrl,
         githubUrl: data.githubUrl,
         updatedAt: new Date(),
@@ -92,6 +75,7 @@ const updateCaseStudy = async (id, data) => {
   }
 };
 
+// Delete a case study
 const deleteCaseStudy = async (id) => {
   try {
     const cleanedId = id.replace(/^:/, '').trim();
@@ -103,6 +87,7 @@ const deleteCaseStudy = async (id) => {
   }
 };
 
+// Get all case studies
 const getAllCaseStudies = async () => {
   try {
     const caseStudies = await CaseStudy.find({}).sort({ createdAt: -1 });
@@ -113,14 +98,16 @@ const getAllCaseStudies = async () => {
   }
 };
 
+// Search case studies
 const searchCaseStudies = async (query) => {
   try {
     const caseStudies = await CaseStudy.find({
       $or: [
         { title: { $regex: query, $options: 'i' } },
-        { description: { $regex: query, $options: 'i' } },
-        { client: { $regex: query, $options: 'i' } },
-        { industry: { $regex: query, $options: 'i' } },
+        { challenge: { $regex: query, $options: 'i' } },
+        { solution: { $regex: query, $options: 'i' } },
+        { results: { $regex: query, $options: 'i' } },
+        { technologies: { $regex: query, $options: 'i' } },
       ],
     }).sort({ createdAt: -1 });
     return caseStudies;
