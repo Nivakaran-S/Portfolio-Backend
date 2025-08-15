@@ -9,15 +9,16 @@ const {
 
 const httpCreateCaseStudyController = async (req, res) => {
   try {
-    const { title, challenge, solution, results, learnings, technologies, imageUrl, demoUrl, githubUrl } = req.body;
+    const { title, challenge, solution, overview, results, learnings, technologies, imageUrl, demoUrl, githubUrl } = req.body;
 
-    if (!title || !challenge || !solution || !results || !imageUrl || !demoUrl || !githubUrl) {
+    if (!title || !challenge || !overview || !solution || !results || !imageUrl || !demoUrl || !githubUrl) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
     const caseStudyId = await createCaseStudy({
       title,
       challenge,
+      overview,
       solution,
       results,
       learnings,
@@ -53,9 +54,9 @@ const httpGetCaseStudyByIdController = async (req, res) => {
 const httpUpdateCaseStudyController = async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, challenge, solution, results, learnings, technologies, imageUrl, demoUrl, githubUrl } = req.body;
+    const { title, challenge, solution, overview, results, learnings, technologies, imageUrl, demoUrl, githubUrl } = req.body;
 
-    if (!title || !challenge || !solution || !results || !imageUrl || !demoUrl || !githubUrl) {
+    if (!title || !challenge || !solution || !overview || !results || !imageUrl || !demoUrl || !githubUrl) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
@@ -63,6 +64,7 @@ const httpUpdateCaseStudyController = async (req, res) => {
       title,
       challenge,
       solution,
+      overview,
       results,
       learnings,
       technologies,

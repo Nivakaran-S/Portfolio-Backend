@@ -6,6 +6,9 @@ const CaseStudySchema = new mongoose.Schema({
     type: String,              // URL or path to the case study image
     required: true
   },
+  overview: {
+    type:String,
+  },
   githubUrl: {
     type: String,              // URL or path to the case study image
     required: true

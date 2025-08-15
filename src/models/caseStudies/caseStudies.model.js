@@ -10,7 +10,8 @@ const createCaseStudy = async (data) => {
       !data.results ||
       !data.imageUrl ||
       !data.demoUrl ||
-      !data.githubUrl
+      !data.githubUrl ||
+      !data.overview
     ) {
       throw new Error(
         'Missing required fields: title, challenge, solution, results, imageUrl, demoUrl, or githubUrl'
@@ -26,6 +27,7 @@ const createCaseStudy = async (data) => {
       technologies: data.technologies || [],
       imageUrl: data.imageUrl,
       demoUrl: data.demoUrl,
+      overview: data.overview || '',
       githubUrl: data.githubUrl,
     });
 
@@ -63,6 +65,7 @@ const updateCaseStudy = async (id, data) => {
         technologies: data.technologies || [],
         imageUrl: data.imageUrl,
         demoUrl: data.demoUrl,
+        overview: data.overview || '',
         githubUrl: data.githubUrl,
         updatedAt: new Date(),
       },
