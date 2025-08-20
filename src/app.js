@@ -16,7 +16,7 @@ const BlogCategoryRouter = require('./routes/blogCategories/blogCategory.router'
 const app = express();
 
 // --- Manual CORS Middleware for Vercel Serverless ---
-const allowedOrigins = ['http://localhost:3000', 'http://localhost:3000/login', 'https://nivakaran.dev/login', 'https://nivakaran.dev'];
+const allowedOrigins = ['http://localhost:3000', 'http://localhost:3000/login', 'https://nivakaran.dev/login', 'https://nivakaran.dev', 'https://www.nivakaran.dev'];
 
 app.use((req, res, next) => {
     const origin = req.headers.origin;
